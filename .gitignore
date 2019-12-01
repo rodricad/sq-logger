@@ -1,0 +1,6 @@
+/node_modules
+/.idea
+/coverage
+package-lock.json
+/.nyc_output
+/test/tmp

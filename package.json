@@ -1,0 +1,35 @@
+{
+  "name": "sq-logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "bluebird": "^3.7.0",
+    "sq-toolkit": "https://github.com/rodricad/sq-toolkit.git",
+    "lodash": "^4.17.15",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.2.1",
+    "winston-mail": "^2.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "emailjs": "^2.2.0",
+    "mocha": "^6.2.1",
+    "nock": "^11.4.0",
+    "nyc": "^14.1.1",
+    "sinon": "^7.5.0",
+    "timekeeper": "^2.2.0",
+    "fs-extra": "^8.1.0"
+  },
+  "scripts": {
+    "test": "NODE_ENV=testing nyc --reporter=html --reporter=text mocha --timeout 10000 --exit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:rodricad/sq-logger.git"
+  },
+  "license": "MIT"
+}
