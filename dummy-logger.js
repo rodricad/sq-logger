@@ -1,7 +1,10 @@
 'use strict';
+
 const BaseLogger = require('./lib/base-logger');
+const Notifier = require('./lib/notifier');
 
 let _instance = null;
+let _notifier = null;
 
 class DummyLogger extends BaseLogger{
 
@@ -17,7 +20,15 @@ class DummyLogger extends BaseLogger{
     emerg(){
     }
 
-    notify(){
+    /**
+     * @param key {String}
+     * @return {Notifier}
+     */
+    notify(key){
+        if (_notifier == null) {
+            _notifier = new Notifier(this, key);
+        }
+        return _notifier;
     }
 
     static create(){
