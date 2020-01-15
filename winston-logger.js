@@ -173,6 +173,10 @@ class WinstonLogger extends BaseLogger{
      * @param {Error} err
      */
     onUnhandledException(err) {
+        // Logger has been already ended because of another unhandled exception or rejection
+        if (this.logger.writable === false) {
+            return;
+        }
         this.notify('Unhandled Exception').steps(0, 1).msg('Unhandled Exception. Error: ', err);
         this.logger.end();
     }
@@ -181,6 +185,10 @@ class WinstonLogger extends BaseLogger{
      * @param {Error} err
      */
     onUnhandledRejection(err) {
+        // Logger has been already ended because of another unhandled exception or rejection
+        if (this.logger.writable === false) {
+            return;
+        }
         this.notify('Unhandled Rejection').steps(0, 1).msg('Unhandled Rejection. Error: ', err);
         this.logger.end();
     }
