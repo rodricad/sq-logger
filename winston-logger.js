@@ -178,7 +178,6 @@ class WinstonLogger extends BaseLogger{
             return;
         }
         this.notify('Unhandled Exception').steps(0, 1).msg('Unhandled Exception. Error: ', err);
-        this.logger.end();
     }
 
     /**
@@ -190,7 +189,6 @@ class WinstonLogger extends BaseLogger{
             return;
         }
         this.notify('Unhandled Rejection').steps(0, 1).msg('Unhandled Rejection. Error: ', err);
-        this.logger.end();
     }
 
     onFinish() {
