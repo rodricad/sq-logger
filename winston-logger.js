@@ -197,6 +197,10 @@ class WinstonLogger extends BaseLogger{
         process.exit(1);
     }
 
+    end() {
+        this.logger.end();
+    }
+
     /**
      *
      * @param key {String}

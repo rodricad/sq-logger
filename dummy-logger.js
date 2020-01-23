@@ -31,6 +31,10 @@ class DummyLogger extends BaseLogger{
         return _notifier;
     }
 
+    end(){
+
+    }
+
     static create(){
         if(!_instance)
             _instance = new DummyLogger();
