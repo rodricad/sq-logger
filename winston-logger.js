@@ -97,6 +97,7 @@ class WinstonLogger extends BaseLogger{
     addMail(emailConfig){
         var config = _.cloneDeep(emailConfig);
         config.unique = true;
+        config.html = true;
 
         if(process.env.NODE_ENV === 'production')
             config.subject = util.format('[ERR] - {{msg}}');
@@ -193,6 +194,10 @@ class WinstonLogger extends BaseLogger{
 
     onFinish() {
         process.exit(1);
+    }
+
+    end() {
+        this.logger.end();
     }
 
     /**
