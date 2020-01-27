@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "bluebird": "^3.7.0",
-    "sq-toolkit": "https://github.com/rodricad/sq-toolkit.git",
     "lodash": "^4.17.15",
+    "sq-toolkit": "git+https://github.com/rodricad/sq-toolkit.git",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.2.1",
     "winston-mail": "^2.0.0"
