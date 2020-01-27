@@ -136,12 +136,15 @@ describe('Winston Logger', function () {
             tk.freeze('2019-10-10T15:00:00.000Z');
             let logger = createMailLogger();
 
+            // Mock up hostname
+            logger.notify('Subject').hostname = '_HOSTNAME_';
+
             logger.notify('Subject').start(0).each(0).msg('Send Email');
 
             return Promise.delay(100)
             .then(() => {
                 expect(smtpStub.calledOnce).to.equals(true);
-                expect(smtpStub.args[0][0].text).to.equals('Subject\nNotifier start:0 each:1 count:0 | Send Email');
+                expect(smtpStub.args[0][0].text).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:0 each:1 count:0<br><pre>Send Email </pre>');
             })
             .finally(() => {
                 smtpStub.restore();
@@ -153,14 +156,17 @@ describe('Winston Logger', function () {
             let logger = createMailLogger();
             let emergStub = getEmergencyStub();
 
+            // Mock up hostname
+            logger.notify('Subject').hostname = '_HOSTNAME_';
+
             logger.notify('Subject').start(0).each(1).msg('Send Email');
             logger.notify('Subject').start(0).each(1).msg('Send Second Email');
 
             return Promise.delay(100)
             .then(() => {
                 expect(emergStub.calledTwice).to.equals(true);
-                expect(emergStub.args[0][0]).to.equals('Subject\nNotifier start:0 each:1 count:0 | Send Email');
-                expect(emergStub.args[1][0]).to.equals('Subject\nNotifier start:0 each:1 count:1 | Send Second Email');
+                expect(emergStub.args[0][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:0 each:1 count:0<br><pre>Send Email');
+                expect(emergStub.args[1][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:0 each:1 count:1<br><pre>Send Second Email');
             })
             .finally(() => {
                 emergStub.restore();
@@ -174,6 +180,9 @@ describe('Winston Logger', function () {
             let emergStub = getEmergencyStub();
             let errorStub = getErrorStub();
 
+            // Mock up hostname
+            logger.notify('Subject').hostname = '_HOSTNAME_';
+
             logger.notify('Subject').start(0).each(2).msg('Send Email');
             logger.notify('Subject').start(0).each(2).msg('Log on Error');
             logger.notify('Subject').start(0).each(2).msg('Send Second Email');
@@ -182,8 +191,8 @@ describe('Winston Logger', function () {
             .then(() => {
                 expect(emergStub.callCount).to.equals(2);
                 expect(errorStub.callCount).to.equals(1);
-                expect(emergStub.args[0][0]).to.equals('Subject\nNotifier start:0 each:2 count:0 | Send Email');
-                expect(emergStub.args[1][0]).to.equals('Subject\nNotifier start:0 each:2 count:2 | Send Second Email');
+                expect(emergStub.args[0][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:0 each:2 count:0<br><pre>Send Email');
+                expect(emergStub.args[1][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:0 each:2 count:2<br><pre>Send Second Email');
                 expect(errorStub.args[0][0]).to.equals('Log on Error');
             })
             .finally(() => {
@@ -198,16 +207,21 @@ describe('Winston Logger', function () {
             let emergStub = getEmergencyStub();
             let errorStub = getErrorStub();
 
+            // Mock up hostname
+            logger.notify('Subject').hostname = '_HOSTNAME_';
+
             for (let i = 0; i < 15; i++) {
                 logger.notify('Subject').start(5).each(5).msg('Test message %s', i);
             }
 
             return Promise.delay(100)
             .then(() => {
-                expect(emergStub.args[0][0]).to.equals('Subject\nNotifier start:5 each:5 count:5 | Test message %s');
+                expect(emergStub.args[0][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:5 each:5 count:5<br><pre>Test message %s');
                 expect(emergStub.args[0][1]).to.equals(5);
-                expect(emergStub.args[1][0]).to.equals('Subject\nNotifier start:5 each:5 count:10 | Test message %s');
+                expect(emergStub.args[0][2]).to.equals('</pre>');
+                expect(emergStub.args[1][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:5 each:5 count:10<br><pre>Test message %s');
                 expect(emergStub.args[1][1]).to.equals(10);
+                expect(emergStub.args[1][2]).to.equals('</pre>');
 
                 expect(emergStub.callCount).to.equals(2);
                 expect(errorStub.callCount).to.equals(13);
@@ -226,6 +240,9 @@ describe('Winston Logger', function () {
             let logger = createMailLogger();
             let emergStub = getEmergencyStub();
             let errorStub = getErrorStub();
+
+            // Mock up hostname
+            logger.notify('Subject').hostname = '_HOSTNAME_';
 
             logger.notify('Subject').start(0).each(100).msg('Test message');
             logger.notify('Subject').start(0).each(100).msg('Test message');
@@ -257,16 +274,21 @@ describe('Winston Logger', function () {
             let emergStub = getEmergencyStub();
             let errorStub = getErrorStub();
 
+            // Mock up hostname
+            logger.notify('Subject').hostname = '_HOSTNAME_';
+
             for (let i = 0; i < 15; i++) {
                 logger.notify('Subject').steps(5,5).msg('Test message %s', i);
             }
 
             return Promise.delay(100)
             .then(() => {
-                expect(emergStub.args[0][0]).to.equals('Subject\nNotifier start:5 each:5 count:5 | Test message %s');
+                expect(emergStub.args[0][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:5 each:5 count:5<br><pre>Test message %s');
                 expect(emergStub.args[0][1]).to.equals(5);
-                expect(emergStub.args[1][0]).to.equals('Subject\nNotifier start:5 each:5 count:10 | Test message %s');
+                expect(emergStub.args[0][2]).to.equals('</pre>');
+                expect(emergStub.args[1][0]).to.equals('Subject\n<br>_HOSTNAME_<br>Notifier start:5 each:5 count:10<br><pre>Test message %s');
                 expect(emergStub.args[1][1]).to.equals(10);
+                expect(emergStub.args[1][2]).to.equals('</pre>');
 
                 expect(emergStub.callCount).to.equals(2);
                 expect(errorStub.callCount).to.equals(13);
